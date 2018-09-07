@@ -1,10 +1,10 @@
 const fetch = require('node-fetch');
 const config = require('./config.json');
 
-module.exports.fetchWeather = function() {
-  return fetch(`https://api.weather.yandex.ru/v1/forecast?lat=${config.lat}&lon=${config.lon}&${config.extra}`, {
-    headers: {'X-Yandex-API-Key': config.yandexWatherToken}
-  }).then(checkStatus)
+module.exports.fetchWeather = function(lat, lon) {
+  return fetch(`https://api.weather.yandex.ru/v1/forecast?lat=${lat}&lon=${lon}`, {
+    headers: {'X-Yandex-API-Key': config.weatherYandexAPI}
+  }).then(checkWeatherStatus)
     .then(response => response.json())
     .then(json => {
       return json;
@@ -14,7 +14,7 @@ module.exports.fetchWeather = function() {
     });
 };
 
-function checkStatus(response) {
+function checkWeatherStatus(response) {
   if (response.ok) {
     return response;
   } else {

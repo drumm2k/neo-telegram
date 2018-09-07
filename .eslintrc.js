@@ -22,6 +22,7 @@ module.exports = {
         ],
         "no-unused-vars": "off",
         "no-undef": "off",
-        "eqeqeq": "off"
+        "eqeqeq": "off",
+        "quotes": "off"
     }
 };
