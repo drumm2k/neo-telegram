@@ -26,7 +26,7 @@ const conditionDict = {
 // Get weather and form reply
 module.exports.getWeather = function(location, lat, lon) {
   return fetchWeather(lat, lon).then(response => {
-    let wMarkup = (`🚩 ${location}:` +
+    let wMarkup = `🚩 ${location}:` +
                   `\n🌡 ${response.fact.temp}°C ` +
                   `${conditionDict[response.fact.condition]} ${response.fact.condition.replace(/-/g, ' ')}` +
                   `\n🌬 ${response.fact.wind_speed}m/s 💧 ${response.fact.humidity}%` +
@@ -34,7 +34,7 @@ module.exports.getWeather = function(location, lat, lon) {
                   `\n` +
                   `\n🗓️ Tomorrow: ` +
                   `\n🌡 ${response.forecasts[1].parts.night_short.temp} - ${response.forecasts[1].parts.day_short.temp}°C` +
-                  `\n${conditionDict[response.forecasts[1].parts.day_short.condition]} ${response.forecasts[1].parts.day_short.condition.replace(/-/g, ' ')}`);
+                  `\n${conditionDict[response.forecasts[1].parts.day_short.condition]} ${response.forecasts[1].parts.day_short.condition.replace(/-/g, ' ')}`;
     return wMarkup;
   });
 };

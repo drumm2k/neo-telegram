@@ -2,6 +2,7 @@ const Telegraf = require('telegraf');
 const config = require('./config.json');
 const weather = require('./weather.js');
 const geocoding = require('./geocoding.js');
+const roll = require('./roll.js');
 
 const bot = new Telegraf(config.botToken);
 bot.startPolling();
@@ -33,4 +34,22 @@ bot.hears(/weather/i, (ctx) => {
       ctx.reply(response);
     });
   });
+});
+
+// Roll
+bot.hears(/roll/i, (ctx) => {
+  let min = 1;
+  let max = ctx.update.message.text.toLowerCase().replace(/\/|roll| /gy, '');
+  console.log();
+  if (max === '') {
+    max = 100;
+  }
+
+  let result = roll.randomInt(min, max);
+
+  // If rolls 100
+  let wow = '';
+  if (result === 100) wow = '👏👏👏👏👏👏👏👏👏👏';
+
+  ctx.reply(`👻 ${ctx.update.message.from.username} rolls 🎲 ${result} out of ${max}.\n${wow}`);
 });
