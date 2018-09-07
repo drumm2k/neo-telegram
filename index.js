@@ -12,7 +12,6 @@ bot.hears(/Всем привет/i, (ctx) => ctx.reply('Это Джи!'));
 bot.hears(/weather/i, (ctx) => {
   // Handle input message by removing command
   let location = ctx.update.message.text.toLowerCase().replace(/\/|weather| /gy, '');
-
   // If location is not set - use default
   if (location === '') {
     location = config.weatherDefaultLocation;
@@ -25,7 +24,6 @@ bot.hears(/weather/i, (ctx) => {
       return;
     }
 
-    // Set name and coords returned by Geocoding API
     let location = response[0];
     let lon = response[1];
     let lat = response[2];

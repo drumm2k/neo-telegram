@@ -27,13 +27,14 @@ const conditionDict = {
 module.exports.getWeather = function(location, lat, lon) {
   return fetchWeather(lat, lon).then(response => {
     let wMarkup = (`🚩 ${location}:` +
-                  `\n🌡 ${response.fact.temp}°C` +
-                  ` ${conditionDict[response.fact.condition]} ${response.fact.condition.replace(/-/g, ' ')}` +
+                  `\n🌡 ${response.fact.temp}°C ` +
+                  `${conditionDict[response.fact.condition]} ${response.fact.condition.replace(/-/g, ' ')}` +
                   `\n🌬 ${response.fact.wind_speed}m/s 💧 ${response.fact.humidity}%` +
                   `\n🌅 ${response.forecasts[0].sunrise} 🌇 ${response.forecasts[0].sunset}` +
                   `\n` +
                   `\n🗓️ Tomorrow: ` +
-                  `\n🌡 ${response.forecasts[1].parts.night_short.temp} - ${response.forecasts[1].parts.day_short.temp} °C`);
+                  `\n🌡 ${response.forecasts[1].parts.night_short.temp} - ${response.forecasts[1].parts.day_short.temp}°C` +
+                  `\n${conditionDict[response.forecasts[1].parts.day_short.condition]} ${response.forecasts[1].parts.day_short.condition.replace(/-/g, ' ')}`);
     return wMarkup;
   });
 };
