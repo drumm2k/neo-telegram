@@ -39,7 +39,7 @@ bot.hears(/weather/i, (ctx) => {
 // Roll
 bot.hears(/roll/i, (ctx) => {
   let min = 1;
-  let max = ctx.update.message.text.toLowerCase().replace(/\/|roll| /gy, '');
+  let max = ctx.update.message.text.toLowerCase().replace(/[^0-9.]/g, '');
   console.log();
   if (max === '') {
     max = 100;
@@ -51,5 +51,5 @@ bot.hears(/roll/i, (ctx) => {
   let wow = '';
   if (result === 100) wow = '👏👏👏👏👏👏👏👏👏👏';
 
-  ctx.reply(`👻 ${ctx.update.message.from.username} rolls 🎲 ${result} out of ${max}.\n${wow}`);
+  ctx.reply(`👻 @${ctx.update.message.from.username} rolls 🎲 ${result} out of ${max}.\n${wow}`);
 });
