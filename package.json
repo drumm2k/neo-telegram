@@ -8,6 +8,10 @@
     "start": "node index.js",
     "dev": "nodemon server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/drumm2k/neo-telegram.git"
+  },
   "author": "Ruslan Dzyubanov",
   "license": "MIT",
   "dependencies": {
