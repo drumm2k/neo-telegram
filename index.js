@@ -1,27 +1,45 @@
-const Telegraf = require('telegraf');
+const TelegramBot = require('node-telegram-bot-api');
+const Agent = require('socks5-https-client/lib/Agent');
 const config = require('./config.json');
 const weather = require('./weather.js');
 const geocoding = require('./geocoding.js');
 const roll = require('./roll.js');
 
-const bot = new Telegraf(config.botToken);
-bot.startPolling();
-
-bot.hears(/Всем привет/i, (ctx) => ctx.reply('Это Джи!'));
-
-// Weather
-bot.hears(/weather/i, (ctx) => {
-  // Handle input message by removing command
-  let location = ctx.update.message.text.toLowerCase().replace(/\/|weather| /gy, '');
-  // If location is not set - use default
-  if (location === '') {
-    location = config.weatherDefaultLocation;
+const bot = new TelegramBot(config.botToken, {
+  polling: true,
+  request: {
+    agentClass: Agent,
+    agentOptions: {
+      socksHost: config.socksHost,
+      socksPort: parseInt(config.socksPort),
+      // Authorization
+      socksUsername: config.socksUsername,
+      socksPassword: config.socksPassword
+    }
   }
+});
+
+bot.onText(/Всем привет/i, (msg) => {
+  const chatId = msg.chat.id;
+  bot.sendMessage(chatId, 'Это Джи!');
+});
+
+// Matches "/weather [whatever]"
+bot.onText(/\/weather (.+)/, (msg, match) => {
+  const chatId = msg.chat.id;
+  let location;
+
+  if (typeof match !== 'undefined') {
+    location = match[1];
+  } else {
+    location = config.weatherDefaultLoc;
+  }
+  console.log(match);
 
   // Use Geocoding API to get true location name and coordinates
   geocoding.fetchCoordinates(location).then(response => {
     if (response === undefined) {
-      ctx.reply('🚫 The Matrix has you.');
+      bot.sendMessage(chatId, '🚫 The Matrix has you.');
       return;
     }
 
@@ -31,16 +49,17 @@ bot.hears(/weather/i, (ctx) => {
 
     // Use Weather API to get forecast
     weather.getWeather(location, lat, lon).then(response => {
-      ctx.reply(response);
+      bot.sendMessage(chatId, response);
     });
   });
 });
 
-// Roll
-bot.hears(/roll/i, (ctx) => {
+// Matches "/roll [whatever]"
+bot.onText(/\/roll (.+)/, (msg, match) => {
+  const chatId = msg.chat.id;
   let min = 1;
-  let max = ctx.update.message.text.toLowerCase().replace(/[^0-9.]/g, '');
-  console.log();
+  let max = parseInt(match[1]);
+
   if (max === '') {
     max = 100;
   }
@@ -49,7 +68,8 @@ bot.hears(/roll/i, (ctx) => {
 
   // If rolls 100
   let wow = '';
-  if (result === 100) wow = '👏👏👏👏👏👏👏👏👏👏';
+  if (max === 100 && result === 100) wow = '\nUnbelievable! 👏👏👏👏👏';
+  if (max <= 10000 && result > 9000) wow = '\nIt\'s over 9000! ⚡⚡⚡';
 
-  ctx.reply(`👻 @${ctx.update.message.from.username} rolls 🎲 ${result} out of ${max}.\n${wow}`);
+  bot.sendMessage(chatId, `👻 ${msg.from.first_name} ${msg.from.last_name} rolls 🎲 ${result} out of ${max}.${wow}`);
 });

@@ -1,5 +1,9 @@
 {
-  "botToken": "",
-  "weatherYandexAPI": "",
-  "weatherDefaultLocation": "St. Petersburg"
+  "botToken": "token",
+  "socksHost": "ip",
+  "socksPort": "port",
+  "socksUsername": "username",
+  "socksPassword": "password",
+  "weatherYandexAPI": "api_token",
+  "weatherDefaultLocation": "location"
 }

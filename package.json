@@ -16,7 +16,8 @@
   "license": "MIT",
   "dependencies": {
     "node-fetch": "^2.2.0",
-    "telegraf": "^3.23.0"
+    "node-telegram-bot-api": "^0.30.0",
+    "tumblr.js": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "^5.5.0",
@@ -25,6 +26,7 @@
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^4.0.0",
     "eslint-plugin-standard": "^4.0.0",
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "socks5-https-client": "^1.2.1"
   }
 }
