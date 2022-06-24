@@ -15,7 +15,7 @@
   "author": "Ruslan Dzyubanov",
   "license": "MIT",
   "dependencies": {
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "node-telegram-bot-api": "^0.30.0",
     "tumblr.js": "^2.0.0"
   },
